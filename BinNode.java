@@ -1,23 +1,22 @@
 public class BinNode {
-//    public HeadNode binHead;
-    public Node head = new Node();
-    private Node next ;
-    private Node last ;
-    private Node current ;
+    int data ;
+    public BinNode next ;
 
-    public void push(int new_data)
-    {
-        //Allocate new node and putting data
-        Node new_node = new Node(new_data);
+    public Node nextAddress ; //Holds the address of next of our appropriate node
+    public Node lastAddress ; //Holds address of previous of our appropriate node
+    public Node currentAddress ; //Holds address of our appropriate node
 
-        //Make next of new node as head
-        new_node.next = head;
+    BinNode(){
 
-        //Move the head to point to new Node
-        head = new_node;
     }
 
-    public void insertBinList(BinNode binList){
+    BinNode(int data){
+        this.data = data ;
+    }
 
+    public BinNode(Node nextAddress, Node lastAddress, Node currentAddress) {
+        this.nextAddress = nextAddress;
+        this.lastAddress = lastAddress;
+        this.currentAddress = currentAddress;
     }
 }

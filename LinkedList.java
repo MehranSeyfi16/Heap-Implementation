@@ -1,11 +1,12 @@
+import com.sun.xml.internal.bind.v2.TODO;
+
 import java.util.ArrayList;
 
 public class LinkedList {
     public static ArrayList<Integer> savedChunks = new ArrayList<>();
-    public static ArrayList<BinNode> binNodes  = new ArrayList<>();
-
+    public static ArrayList<BinList> binLists = new ArrayList<>();
     public Node head = new Node();
-    private static int sizeOfMainLinkedList = 0 ;
+    private static int sizeOfMainLinkedList = 0;
     public static Node currentAddress;
     public static Node lastAddress;
     public static Node nextAddress;
@@ -18,30 +19,34 @@ public class LinkedList {
         LinkedList.sizeOfMainLinkedList = sizeOfMainLinkedList;
     }
 
-    LinkedList(int size){
-        head.setData(size);
-        head.next= null;
+    LinkedList(int size) {
+        head.data = size;
+        head.next = null;
     }
 
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         if (head == null)
             return true;
         return false;
     }
 
-    public void malloc(int data){
+    public void malloc(int data) {
         Node newNode = new Node(data);
         Node q = new Node();
-        if (head.next == null){
+        if (head.next == null) {
             head.next = newNode;
-            head.setData(head.getData()-data);
-            setSizeOfMainLinkedList(getSizeOfMainLinkedList()+1);
-        }
-        else{
-
-        }
-
+            head.data = head.data - data;
+            setSizeOfMainLinkedList(getSizeOfMainLinkedList() + 1);
+        } else {
+            q = head;
+            newNode.next = q.next;
+            q.next = newNode;
+            head.data = head.data - data;
+            System.out.println("hkufjd");
+        } // inja bayad bere chaunk ro bardare biad malloc kone
     }
+
+
 
     public void traverse(){
         Node p;
@@ -79,8 +84,8 @@ public class LinkedList {
             if (q.next==null) {
                 System.out.println("Item not found!");
             }else {
-                currentAddress = q;
-                lastAddress = q.next ;
+                currentAddress = q.next;
+                lastAddress = q ;
                 nextAddress = q.next.next ;
                 q.next = q.next.next ;
                 setSizeOfMainLinkedList(getSizeOfMainLinkedList()-1);            }
@@ -92,7 +97,7 @@ public class LinkedList {
         if (search(head , data)){
             System.out.println("Node found!");
             deleteNode(data);
-            head.setData(head.getData()+data);
+            head.data = head.data + data;
             for (int i = 0; i < savedChunks.size(); i++) {
                 if (savedChunks.get(i)==data){
                     count++;
@@ -100,34 +105,42 @@ public class LinkedList {
             }
             if (count==0){
                 savedChunks.add(data);
-                Node binHead = new Node(data);
-                BinNode binNode = new BinNode();
-                binNode.head.setData(data);
-                binNode.push(data); // اینجا باید اون ادرسا(مقادیر اینفو)ی قبل و بعد پوش بشن داخل ی نود جدید ک ب head وصل میشه(تو بین ها) اول بعدش همینجوری اضافه میشه، بعدا هر جا خواستیم malloc کنیم، میایم تو بین مربوط ب خودش میگردیم هر نود رو بررسی میکنیم ،هر جا قبل و بعدش، معادلی تو لینکد لیست اصلی داشت،(یعنی تو لینکلیست اصلی نود قبلی اینفو اون نود قبلیو رو داشته باشه و نود بعد اینفو اون نود بعدیه)اون جا malloc میکنیم
+                BinNode binHead = new BinNode(data);
+                BinList binList = new BinList(binHead);
+                binLists.add(binList);
+                for (int i = 0; i < binLists.size(); i++) {
+                    if (binLists.get(i).head.data==data){
+                        System.out.println("successfully added");
+                        binLists.get(i).push(nextAddress,lastAddress,currentAddress);
+                    }
+                }
             }
-//            else {
-//
-//            }
+            else {
+                for (int i = 0; i < binLists.size(); i++) {
+                    if (binLists.get(i).head.data == data){
+                        System.out.println(head.data); // INJA KAMEL SHE
+                        binLists.get(i).push(nextAddress,lastAddress,currentAddress);
+                    }
+                }
+            }
         }else {
             System.out.println("Not such a Node found!");
         }
-
-
     }
 
 //    public void test(){
 //        int j = 0 ;
 //        for (int i = 0; i < 32; i++) {
 //            j += 8 ;
-//            BinNode binNode = new BinNode();
-//            binNode.head.setData(j); ;
-//            binNodes.add(binNode);
+//            BinList binNode = new BinList();
+//            binNode.head.data = j; ;
+//            binLists.add(binNode);
 //        }
 //    }
 
     public void print(){
-        for (int i = 0; i < binNodes.size(); i++) {
-            System.out.println(binNodes.get(i).head.getData());
+        for (int i = 0; i < binLists.size(); i++) {
+            System.out.println(binLists.get(i).head.data);
         }
 
     }

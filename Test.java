@@ -10,8 +10,9 @@ public class Test {
 //        }
 //        System.out.println(linkedList.head);
 //        System.out.println(linkedList.head.getData());
-        linkedList.test();
-        linkedList.print();
+        linkedList.malloc(16);
+        linkedList.malloc(25);
+        linkedList.malloc(36);
 
     }
 }
