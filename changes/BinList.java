@@ -38,7 +38,7 @@ public class BinList {
             second_last = second_last.next;
 
         // Change next of second last
-        BinNode deletedBin = second_last;
+        BinNode deletedBin = second_last.next;
         second_last.next = null;
 
         return deletedBin;

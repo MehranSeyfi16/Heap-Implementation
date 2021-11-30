@@ -1,3 +1,5 @@
+import com.sun.imageio.plugins.wbmp.WBMPImageReader;
+
 import java.util.ArrayList;
 
 public class LinkedList {
@@ -36,28 +38,36 @@ public class LinkedList {
             head.data = head.data - data;
             setSizeOfMainLinkedList(getSizeOfMainLinkedList() + 1);
         } else {
-
-            for (int i = 0; i < binLists.size(); i++) {
-                if (binLists.size()==0){
-                    q = head;
-                    newNode.next = q.next;
-                    q.next = newNode;
-                    head.data = head.data - data;
-                }
-                else if (binLists.get(i).head.data==data){
-                    BinNode saved = new BinNode();
-                    saved = binLists.get(i).removeLastNode();
-                    q = head;
-                    while (q.next!=null && q==saved.nextAddress){
-                        q = q.next ;
+            if (binLists.size()==0){
+                q = head;
+                newNode.next = q.next;
+                q.next = newNode;
+                head.data = head.data - data;
+                System.out.println(newNode+"in hamon malloc avaliast");
+            } else {
+                for (int i = 0; i < binLists.size(); i++) {
+                    if (binLists.get(i).head.data == data) {
+                        if (binLists.get(i).head.next==null){
+                            q = head;
+                            newNode.next = q.next;
+                            q.next = newNode;
+                            head.data = head.data - data;
+                        }else {
+                            BinNode saved = new BinNode();
+                            saved = binLists.get(i).removeLastNode();
+                            System.out.println(saved.nextAddress + "saved");
+                            q = head;
+                            while (q.next != null && q != saved.lastAddress) {
+                                q = q.next;
+                            }
+                            if (q.next == saved.nextAddress) {
+                                saved.currentAddress.next = q.next;
+                                q.next = saved.currentAddress;
+                                head.data = head.data - data;
+                            }
+                        }
+                        break;
                     }
-                    if (q.next == saved.lastAddress){
-                        saved.currentAddress.next = q.next ;
-                        q.next = saved.currentAddress ;
-                        head.data = head.data - data;
-                    }
-                    System.out.println(q.next);
-                    break;
                 }
             }
 
@@ -113,7 +123,13 @@ public class LinkedList {
     public void free(int data){
         int count=0 ;
         if (search(head , data)){
-            System.out.println("Node found!");
+//            System.out.println("Node found!");
+            if (head.next.next == null) {
+                deleteNode(data);
+                head.data = head.data + data;
+                System.out.println("x");
+                return;
+            }
             deleteNode(data);
             head.data = head.data + data;
             for (int i = 0; i < savedChunks.size(); i++) {
@@ -129,7 +145,7 @@ public class LinkedList {
                 for (int i = 0; i < binLists.size(); i++) {
                     if (binLists.get(i).head.data==data){
                         binLists.get(i).push(nextAddress,lastAddress,currentAddress);
-                        System.out.println("binList"+data+":");
+//                        System.out.println("binList"+data+":");
                         binLists.get(i).traverse();
                         break;
                     }

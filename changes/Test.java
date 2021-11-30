@@ -10,12 +10,29 @@ public class Test {
 //        }
 //        System.out.println(linkedList.head);
 //        System.out.println(linkedList.head.getData());
-        linkedList.malloc(16);
-        linkedList.malloc(20);
-        linkedList.malloc(25);
-        linkedList.free(20);
-        linkedList.malloc(20);
+        linkedList.malloc(54);
         linkedList.traverse();
+        linkedList.malloc(36);
+        linkedList.traverse();
+        linkedList.free(36);
+        linkedList.traverse();
+        linkedList.free(54);
+        linkedList.traverse();
+        System.out.println(linkedList.head.data);
+//        linkedList.traverse();
+//        linkedList.malloc(20);
+//        linkedList.malloc(25);
+//        linkedList.malloc(36);
+//        linkedList.malloc(54);
+//        linkedList.traverse();
+//        linkedList.free(20);
+//        linkedList.traverse();
+//        linkedList.free(36);
+//        linkedList.traverse();
+//        linkedList.malloc(20);
+//        linkedList.traverse();
+//        linkedList.malloc(20);
+//        linkedList.traverse();
 
     }
 }
